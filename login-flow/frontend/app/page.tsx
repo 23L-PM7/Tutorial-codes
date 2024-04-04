@@ -5,6 +5,11 @@ import { fetcher } from "./util";
 
 export default function Home() {
   const [foods, setFoods] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    //
+  }, []);
 
   useEffect(() => {
     fetcher("foods").then((data) => {
@@ -12,5 +17,9 @@ export default function Home() {
     });
   }, []);
 
-  return <div></div>;
+  if (loggedIn) {
+    return <MainApp />;
+  }
+
+  return <Login />;
 }

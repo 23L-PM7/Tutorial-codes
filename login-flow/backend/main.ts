@@ -2,6 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { checkAuth } from "./middlewares/check-auth";
 
 dotenv.config();
 
@@ -15,15 +16,24 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.get("/foods", (req: Request, res: Response) => {
+app.get("/foods", checkAuth, (req: Request, res: Response) => {
+  res.json(["Lasagna", "Burger"]);
+});
+
+app.get("/categories", (req: Request, res: Response) => {
   res.json(["Lasagna", "Burger"]);
 });
 
 app.post("/login", (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log({ email, password });
 
   // TODO
+  // 1. get user from database
+
+  // 2. check user is exist
+
+  // 3. check password
+
   const loggedIn = true;
 
   if (loggedIn) {
