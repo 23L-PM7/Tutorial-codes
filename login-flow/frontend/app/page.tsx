@@ -17,9 +17,10 @@ export default function Home() {
     });
   }, []);
 
-  if (loggedIn) {
-    return <MainApp />;
-  }
+  return null;
+  // if (loggedIn) {
+  //   return <MainApp />;
+  // }
 
-  return <Login />;
+  // return <Login />;
 }
