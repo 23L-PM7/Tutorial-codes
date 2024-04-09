@@ -2,7 +2,19 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { MongoClient } from "mongodb";
 import { checkAuth } from "./middlewares/check-auth";
+
+const url = "mongodb+srv://erdenetsogt:UsxHfR9245skEEUG@cluster0.fvejhwa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const client = new MongoClient(url);
+
+async function connectDB(collectionName: string) {
+  await client.connect();
+  console.log("Connected successfully to server");
+  const db = client.db("food-delivery");
+  const collection = db.collection(collectionName);
+  return collection;
+}
 
 dotenv.config();
 
@@ -22,6 +34,23 @@ app.get("/foods", checkAuth, (req: Request, res: Response) => {
 
 app.get("/categories", (req: Request, res: Response) => {
   res.json(["Lasagna", "Burger"]);
+});
+
+app.post("/sign-up", async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const users = await connectDB("users");
+
+  // validate email
+  // duplicate email (davhardsan)
+  // password weak
+  // password encrypt
+
+  const insertResult = await users.insertOne({ email, password });
+
+  console.log({ insertResult });
+
+  res.sendStatus(204);
 });
 
 app.post("/login", (req: Request, res: Response) => {
