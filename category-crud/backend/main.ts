@@ -45,7 +45,7 @@ async function startServer() {
 
   // read many
   app.get("/categories", async (req: Request, res: Response) => {
-    const categories = await Category.find();
+    const categories = await Category.find({}, "_id name description").collation({ locale: "en" }).sort({ name: 1 });
     res.json(categories);
   });
 
@@ -75,7 +75,7 @@ async function startServer() {
 
   // delete one
   app.delete("/categories/:id", async (req: Request, res: Response) => {
-    await Category.deleteOne({ id: req.params.id });
+    await Category.findByIdAndDelete(req.params.id);
     res.sendStatus(204);
   });
 

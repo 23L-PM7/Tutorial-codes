@@ -9,7 +9,7 @@ export default function Page() {
   const [creating, setCreating] = useState(false);
 
   return (
-    <div className="p-8 container mx-auto max-w-96">
+    <div className="p-8 container mx-auto max-w-lg">
       <button className="btn btn-primary mb-4" onClick={() => setCreating(true)}>
         New
       </button>
