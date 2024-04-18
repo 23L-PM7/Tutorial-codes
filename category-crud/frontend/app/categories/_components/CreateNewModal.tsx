@@ -8,13 +8,7 @@ import { useCategories } from "./utils";
 export function CreateNewModal({ open, onClose }: any) {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const setCategories: any = useCategories((state: any) => state.setCategories);
-
-  function loadList() {
-    axios.get("http://localhost:4000/categories").then(({ data }) => {
-      setCategories(data);
-    });
-  }
+  const loadCategories: any = useCategories((state: any) => state.loadCategories);
 
   function submit() {
     setLoading(true);
@@ -22,7 +16,7 @@ export function CreateNewModal({ open, onClose }: any) {
       onClose();
       reset();
       toast.success(`"${name}" category created successfully.`);
-      loadList();
+      loadCategories();
     });
   }
 

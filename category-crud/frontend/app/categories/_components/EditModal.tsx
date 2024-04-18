@@ -10,13 +10,7 @@ export function EditModal({ editingId, onClose }: any) {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const setCategories: any = useCategories((state: any) => state.setCategories);
-
-  function loadList() {
-    axios.get("http://localhost:4000/categories").then(({ data }) => {
-      setCategories(data);
-    });
-  }
+  const loadCategories: any = useCategories((state: any) => state.loadCategories);
 
   useEffect(() => {
     reset();
@@ -35,7 +29,7 @@ export function EditModal({ editingId, onClose }: any) {
       onClose();
       // reset();
       toast.success(`"${name}" category created updated.`);
-      loadList();
+      loadCategories();
     });
   }
 

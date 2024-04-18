@@ -7,26 +7,32 @@ import { EditModal } from "./EditModal";
 import { useCategories } from "./utils";
 
 export function ListView() {
-  const { categories, setCategories }: any = useCategories();
+  const { categories, loadCategories }: any = useCategories();
   const [editingId, setEditingId] = useState("");
 
-  function loadList() {
-    axios.get("http://localhost:4000/categories").then(({ data }) => {
-      setCategories(data);
-    });
-  }
-
   useEffect(() => {
-    loadList();
+    loadCategories();
   }, []);
 
   function removeCategory(id: string) {
     if (confirm("Delete?")) {
       axios.delete(`http://localhost:4000/categories/${id}`).then(() => {
         toast.success(`Category deleted.`);
-        loadList();
+        loadCategories();
       });
     }
+  }
+
+  if (categories === null) {
+    return (
+      <div className="text-center py-8">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (categories.length === 0) {
+    return <div className="text-center py-8 text-3xl text-gray-500">Хоосон байна</div>;
   }
 
   return (
