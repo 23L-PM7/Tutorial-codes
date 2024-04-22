@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [uploading, setUploading] = useState(false);
+  const [image, setImage] = useState("");
 
   async function handleUpload(e: any) {
     setUploading(true);
@@ -18,8 +19,8 @@ export default function Home() {
     });
 
     if (res.ok) {
-      const data = await res.json();
-      console.log({ data });
+      const { url } = await res.json();
+      setImage(url);
       setUploading(false);
     }
   }
@@ -27,6 +28,8 @@ export default function Home() {
   return (
     <div>
       <input type="file" name="file" disabled={uploading} onChange={handleUpload} />
+
+      {image && <img src={image} />}
     </div>
   );
 }

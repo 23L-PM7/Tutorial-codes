@@ -1,10 +1,16 @@
+import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import { Schema, connect, model } from "mongoose";
 import multer from "multer";
 import { nanoid } from "nanoid";
-// const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 function getExtension(filename: string) {
   const names = filename.split(".");
@@ -54,16 +60,16 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
-app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
+app.post("/upload", upload.single("file"), async (req: Request, res: Response) => {
   // req.file
 
-  console.log(req.file);
+  const filePath = req.file?.path;
 
-  // cloudinary.v2.uploader.upload(req.file?.path, { upload_preset: "my_preset" }, (error: any, result: any) => {
-  //   console.log(result, error);
-  // });
-
-  res.json(req.file);
+  if (filePath) {
+    const result = await cloudinary.uploader.upload(filePath);
+    console.log(result);
+    res.json({ url: result.secure_url });
+  }
 });
 
 // read many
