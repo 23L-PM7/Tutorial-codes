@@ -95,7 +95,7 @@ app.post("/categories", async (req: Request, res: Response) => {
   res.sendStatus(201);
 });
 
-// update one
+// update one 1
 app.put("/categories/:id", async (req: Request, res: Response) => {
   const updates = req.body;
   await Category.updateOne({ _id: req.params.id }, updates);
