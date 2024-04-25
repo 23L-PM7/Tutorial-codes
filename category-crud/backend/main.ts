@@ -74,7 +74,7 @@ app.post("/upload", upload.single("file"), async (req: Request, res: Response) =
 
 // read many
 app.get("/categories", async (req: Request, res: Response) => {
-  const categories = await Category.find({}, "_id name description").collation({ locale: "en" }).sort({ name: 1 });
+  const categories = await Category.find({}, "_id name description image").collation({ locale: "en" }).sort({ name: 1 });
   res.json(categories);
 });
 

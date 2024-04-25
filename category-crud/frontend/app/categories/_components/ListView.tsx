@@ -40,6 +40,7 @@ export function ListView() {
       {categories.map((category: any) => (
         <div className="card bg-base-200 mb-4" key={category._id}>
           <div className="card-body">
+            <img src={category.image} />
             <div className="flex items-center">
               <div className="flex-1">{category.name}</div>
               <button className="btn btn-error btn-outline" onClick={() => removeCategory(category._id)}>
