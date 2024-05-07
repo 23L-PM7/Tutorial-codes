@@ -9,16 +9,22 @@ export function ImageField({ value, onChange }: any) {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("file", file, file.name);
+    formData.append("upload_preset", "xnhpft2k");
+    formData.append("cloud_name", "deyylvaoy");
 
-    const res = await fetch("http://localhost:4000/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("https://api.cloudinary.com/v1_1/deyylvaoy/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (res.ok) {
-      const { url } = await res.json();
-      onChange(url);
-      setUploading(false);
+      if (res.ok) {
+        const { secure_url } = await res.json();
+        onChange(secure_url);
+        setUploading(false);
+      }
+    } catch (e) {
+      alert("An Error Occured While Uploading");
     }
   }
 
